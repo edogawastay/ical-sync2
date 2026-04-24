@@ -1,11 +1,13 @@
 name: Booking_Sync
 on:
+  schedule:
+    - cron: '0 * * * *'
   workflow_dispatch:
 jobs:
-  run_sync:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Send data
+      - name: Fetch and Post
         run: |
           DATA=$(curl -s -L -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" "https://ical.booking.com/v1/export?t=ddcfb12a-c671-4663-93eb-d433dfa7db9d")
           curl -X POST -H "Content-Type: text/plain" -d "$DATA" "https://script.google.com/macros/s/AKfycbymN07f3UlRC9eqJRnNDfR3N_D2zF07UZuDXG2FlcKOtQJElGOWrxyUWu0hUpvSO2SB/exec"
